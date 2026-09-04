@@ -78,12 +78,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/apps/backend/drizzle.config.ts ./
 
 # Copy built packages
 COPY --from=builder --chown=nextjs:nodejs /app/packages ./packages
+COPY --from=builder --chown=nextjs:nodejs /app/apps/frontend/node_modules ./apps/frontend/node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/apps/backend/node_modules ./apps/backend/node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
 COPY --from=builder --chown=nextjs:nodejs /app/pnpm-workspace.yaml ./
 COPY --from=builder --chown=nextjs:nodejs /app/pnpm-lock.yaml ./
-
-RUN pnpm install --prod --frozen-lockfile
 
 # Install drizzle-kit locally in backend for migrations
 RUN cd apps/backend && pnpm add drizzle-kit@0.31.1
